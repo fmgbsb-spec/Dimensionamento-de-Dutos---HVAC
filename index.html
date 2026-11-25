@@ -30,7 +30,7 @@
 <title>Dutos HVAC</title>
 <!-- Plataforma comum (_plataforma-hvac): tokens, base, componentes e folha do memorial. O build embute tudo no HTML único. -->
 <style>
-/* ==== plataforma v0.7.0: css/base.css ==== */
+/* ==== plataforma v0.8.0: css/base.css ==== */
 /* ---- importado: fontes.css ---- */
 /* Fontes embutidas (gerado por _plataforma-hvac\codigo\ferramentas\gera_fontes.py; não editar à mão).
    Arquivos woff2 do Google Fonts, subconjunto latin, sem alteração; letras fora dele usam a fonte seguinte da lista.
@@ -521,7 +521,7 @@ button.kpi-c:hover { border-color: var(--prim); }
 
 </style>
 <style>
-/* ==== plataforma v0.7.0: css/impressao.css ==== */
+/* ==== plataforma v0.8.0: css/impressao.css ==== */
 /* Plataforma HVAC: memorial em formato de folha e regras de impressão (o PDF sai pela impressão do navegador). */
 /* v0.5.0: a folha é papel e não flutua (sem sombra, só a borda); dentro dela ficam as fontes e os pesos da v0.4.1, para o PDF
    sair igual (a tela troca para IBM Plex; o memorial muda de fonte só numa etapa própria, com o Francisco) */
@@ -807,7 +807,7 @@ main:has(.folha.paisagem) { max-width: 1240px; }
 <body>
 <!-- Plataforma: página (topo, trilha, área da tela, faixa), namespace e formatação -->
 <script>
-/* ==== plataforma v0.7.0: js/interface/pagina.js ==== */
+/* ==== plataforma v0.8.0: js/interface/pagina.js ==== */
 /* Plataforma HVAC. Página comum: topo (marca, modo aprendizado, tema, comandos), trilha, área da tela, faixa de resultado,
    camada sobre a tela, campo de arquivo e captura de erro de JavaScript. Desde a v0.4.0, também o botão Menu, a barra de
    passos e o balão de dica do celular: nascem ocultos (base.css) e só aparecem em tela estreita.
@@ -816,7 +816,7 @@ main:has(.folha.paisagem) { max-width: 1240px; }
 window.HVAC = window.HVAC || {};
 (function (H) {
   'use strict';
-  H.plataforma = { versao: '0.7.0' };   // o build do app grava aqui a versão de _plataforma-hvac\codigo\VERSAO.txt
+  H.plataforma = { versao: '0.8.0' };   // o build do app grava aqui a versão de _plataforma-hvac\codigo\VERSAO.txt
 
   /* Erro de JavaScript fica visível na página (e aparece no teste automático) */
   window.onerror = function (msg, arq, linha) {
@@ -853,12 +853,12 @@ window.HVAC = window.HVAC || {};
 
 </script>
 <script>
-/* ==== plataforma v0.7.0: js/nucleo.js ==== */
+/* ==== plataforma v0.8.0: js/nucleo.js ==== */
 /* Namespace único do app. Módulos: dados (tabelas), util, motor (cálculo, sem DOM), ui (tela). */
 window.HVAC = window.HVAC || {};
 (function (H) {
   'use strict';
-  H.versao = '0.11.0';
+  H.versao = '0.12.0';
   H.dados = H.dados || {};
   H.util = H.util || {};
   H.motor = H.motor || {};
@@ -867,7 +867,7 @@ window.HVAC = window.HVAC || {};
 
 </script>
 <script>
-/* ==== plataforma v0.7.0: js/util/formatacao.js ==== */
+/* ==== plataforma v0.8.0: js/util/formatacao.js ==== */
 /* Formatação numérica (padrão brasileiro: vírgula decimal) e utilidades de texto. */
 (function (H) {
   'use strict';
@@ -3921,7 +3921,7 @@ window.HVAC = window.HVAC || {};
 </script>
 <!-- Plataforma: componentes e casca -->
 <script>
-/* ==== plataforma v0.7.0: js/interface/componentes.js ==== */
+/* ==== plataforma v0.8.0: js/interface/componentes.js ==== */
 /* Plataforma HVAC. Componentes do guia de interface: campo com estado, selos, valor calculado, seletor, segmentado, passos,
    cabeçalho de tela, indicador, bloco recolhível, barras, tabela de passos e, desde a v0.4.0, a lista de cartões do celular.
    Só montam HTML; não conhecem app nem motor.
@@ -4083,7 +4083,7 @@ window.HVAC = window.HVAC || {};
 
 </script>
 <script>
-/* ==== plataforma v0.7.0: js/interface/casca.js ==== */
+/* ==== plataforma v0.8.0: js/interface/casca.js ==== */
 /* Plataforma HVAC. Casca comum dos apps: estado, armazenamento, rotas, trilha, faixa de resultado, gaveta, janela, paleta de comandos,
    tema, modo aprendizado, arquivo de projeto com relatório de importação e impressão do memorial; desde a v0.4.0, o celular
    (Menu, barra de passos, Voltar, dica por toque, tabelas que rolam, memorial em escala, teclado), só com a tela estreita.
@@ -4097,8 +4097,10 @@ window.HVAC = window.HVAC || {};
   var A = null;                               // manifesto do app (H.app)
   var E = null;                               // projeto (o que vai para o arquivo)
   var U = H.ui.U = {                          // estado da tela (não vai para o arquivo); o app acrescenta os seus campos em H.app.estado
-    tela: 'inicio', temIndice: false, aberto: {}, aprender: false, tema: 'claro', erros: {}, delta: 0, sobre: null, paleta: null
+    tela: 'inicio', temIndice: false, aberto: {}, aprender: false, tema: 'claro', erros: {}, delta: 0, sobre: null, paleta: null,
+    memorial: ''                              // v0.8.0: 'resumido' enquanto a folha resumida é impressa (ou com ?memorial=resumido); '' = completo
   };
+  var voltarAoCompleto = false;               // v0.8.0: depois de imprimir o resumido pela janela, a tela volta ao completo
   var clicarDepois = null;                    // seletor do parâmetro de teste ?clicar=, à espera do próximo desenho
   var digitarDepois = null;                   // "<id>:<valor>" do parâmetro de teste ?digitar=, à espera do próximo desenho
   var despejar = false;                       // parâmetro de teste ?despejar=1: o texto do arquivo vai para a página a cada desenho
@@ -4222,7 +4224,8 @@ window.HVAC = window.HVAC || {};
   }
 
   // ------------------------------------------------------------ rotas: #/tela/indice?chave=valor
-  /* Parâmetros de endereço da casca (usados em testes e capturas): importar, bloco, tema, aprender, conta, clicar, digitar, despejar.
+  /* Parâmetros de endereço da casca (usados em testes e capturas): importar, bloco, tema, aprender, conta, clicar, digitar, despejar,
+     memorial (v0.8.0: "resumido" mostra a folha resumida, para conferir e gerar o PDF por --print-to-pdf).
      Os do app ficam em A.parametros = { nome: function (valor, U) }; se o app declara "clicar", "digitar" ou "despejar", vale o dele
      e a casca não age nesse parâmetro. */
   function lerRota() {
@@ -4248,6 +4251,7 @@ window.HVAC = window.HVAC || {};
         try { digitarDepois = decodeURIComponent(kv[1]); } catch (e) { digitarDepois = null; }
       }
       if (kv[0] === 'despejar' && !tem(A.parametros, 'despejar')) despejar = kv[1] === '1';
+      if (kv[0] === 'memorial' && !tem(A.parametros, 'memorial')) U.memorial = kv[1] === 'resumido' ? 'resumido' : '';
     });
   }
   // ?digitar=<id do campo>:<valor>: escreve o valor no elemento e dispara o evento de alteração, que é o caminho de quem digita na tela;
@@ -4264,11 +4268,15 @@ window.HVAC = window.HVAC || {};
     if (!pre) { pre = document.createElement('pre'); pre.id = 'despejo'; pre.hidden = true; document.body.appendChild(pre); }
     pre.textContent = textoArquivo();
   }
-  // ?clicar=<seletor CSS>: clica no primeiro elemento que casa com o seletor; seletor inválido ou elemento ausente são ignorados
+  // ?clicar=<seletor CSS>: clica no primeiro elemento que casa com o seletor; seletor inválido ou elemento ausente são ignorados.
+  // v0.8.0: "<seletor 1>||<seletor 2>" clica no segundo depois do desenho que o primeiro clique provocou (janela que abre outra)
   function clicar(valor) {
-    var el;
-    try { el = document.querySelector(decodeURIComponent(valor)); } catch (e) { el = null; }
-    if (el) el.click();
+    var el, txt, i;
+    try { txt = decodeURIComponent(valor); } catch (e) { return; }
+    i = txt.indexOf('||');
+    if (i >= 0) { clicarDepois = encodeURIComponent(txt.slice(i + 2)); txt = txt.slice(0, i); }
+    try { el = document.querySelector(txt); } catch (e) { el = null; }
+    if (el) el.click(); else clicarDepois = null;
   }
 
   // ------------------------------------------------------------ desenho
@@ -4308,7 +4316,8 @@ window.HVAC = window.HVAC || {};
     document.getElementById('faixa').className = hf ? 'faixa' : 'oculto';
     document.getElementById('b-aprender').setAttribute('aria-pressed', U.aprender);
     document.getElementById('b-tema').textContent = U.tema === 'escuro' ? 'Tema claro' : 'Tema escuro';
-    document.title = A.titulo ? A.titulo(E) : ((E.projeto && E.projeto.nome || 'Projeto') + ' · ' + A.nome);
+    document.title = (A.titulo ? A.titulo(E) : ((E.projeto && E.projeto.nome || 'Projeto') + ' · ' + A.nome)) +
+      (U.memorial === 'resumido' && rota.imprime ? ' - resumido' : '');   // v0.8.0: nome do PDF salvo
     desenharSobre();
     ajustarCelular(R);
     if (focoId) {
@@ -4398,7 +4407,22 @@ window.HVAC = window.HVAC || {};
     if (!rotaQueImprime()) return;
     var L = A.faltaPreencher ? A.faltaPreencher(E, A.calcular ? A.calcular(E) : null) || [] : [];
     if (L.length) { U.sobre = { tipo: 'janela', html: htmlFaltaPreencher(L), falta: L }; return; }
-    imprimir();
+    escolherVersao(false);
+  }
+  /* v0.8.0: com A.memorialResumido, a janela "Gerar PDF" pergunta a versão ("Completo" ou "Resumido") antes de imprimir; vem depois
+     da janela "Falta preencher", quando ela abre. O resumido é a mesma rota com U.memorial = 'resumido': o app desenha a folha
+     resumida, a casca imprime e, no afterprint, volta ao completo. Sem o item, imprime direto, como na 0.7.0. */
+  function escolherVersao(depois) {
+    if (!A.memorialResumido) { U.sobre = null; imprimir(depois); return; }
+    U.sobre = { tipo: 'janela', html: '<h2>Gerar PDF</h2><div class="acoes" style="margin-top:14px">' +
+      '<button type="button" class="botao prim" data-acao="pdf-completo">Completo</button>' +
+      '<button type="button" class="botao" data-acao="pdf-resumido">Resumido</button></div>' };
+  }
+  function imprimirVersao(resumido) {
+    U.sobre = null;
+    U.memorial = resumido ? 'resumido' : '';
+    voltarAoCompleto = resumido;
+    imprimir(true);
   }
   /* Texto do arquivo de projeto como é salvo: o projeto, o envelope (formato, versaoFormato, versaoApp e, logo depois, versaoPlataforma)
      e os blocos que A.arquivo.aoSalvar(E, R) devolver (ex.: { resultados: {...} }). Os blocos entram só nesta cópia: E não os recebe.
@@ -4513,7 +4537,9 @@ window.HVAC = window.HVAC || {};
     paleta: function () { U.sobre = { tipo: 'paleta', busca: '', sel: 0 }; return 'paleta-busca'; },
     comando: function (el) { var c = comandosFiltrados()[+el.getAttribute('data-i')]; U.sobre = null; if (c) c.fn(); },
     pdf: gerarPdf,
-    'pdf-assim': function () { U.sobre = null; imprimir(true); },                     // v0.7.0: janela "Falta preencher"
+    'pdf-assim': function () { escolherVersao(true); },                               // v0.7.0: janela "Falta preencher"
+    'pdf-completo': function () { imprimirVersao(false); },                           // v0.8.0: janela "Gerar PDF"
+    'pdf-resumido': function () { imprimirVersao(true); },
     'pdf-ir': function (el) {
       var x = U.sobre && U.sobre.falta ? U.sobre.falta[+el.getAttribute('data-i')] : null;
       U.sobre = null;
@@ -4596,7 +4622,10 @@ window.HVAC = window.HVAC || {};
   function celular() { return !!estreita.matches; }
   var imprimindo = false;                     // a troca de mídia durante a impressão não redesenha a tela
   window.addEventListener('beforeprint', function () { imprimindo = true; });
-  window.addEventListener('afterprint', function () { imprimindo = false; });
+  window.addEventListener('afterprint', function () {
+    imprimindo = false;
+    if (voltarAoCompleto) { voltarAoCompleto = false; U.memorial = ''; desenhar(); }   // v0.8.0: o resumido só vale para aquela impressão
+  });
 
   // Menu (C1, C2): o que estava no topo e na paleta, em botões de 44 px; o seletor de arquivo fica sobre o botão (C12)
   function htmlMenu() {
@@ -4679,9 +4708,10 @@ window.HVAC = window.HVAC || {};
 
   // Memorial (v0.6.1, Francisco, 2026-11-17): no papel, cada tópico numerado ("3. Resumo") começa numa folha nova; o primeiro
   // de cada folha fica logo abaixo do cabeçalho. A classe só tem efeito na impressão (impressao.css); a tela não muda.
+  // v0.8.0: a folha com data-resumo (memorial resumido) corre contínua, sem folha nova por tópico.
   function marcarTopicos(raiz) {
     Array.prototype.forEach.call(raiz.querySelectorAll('.folha'), function (f) {
-      if (f.parentNode.closest('.folha')) return;
+      if (f.parentNode.closest('.folha') || f.hasAttribute('data-resumo')) return;
       var n = 0;
       Array.prototype.forEach.call(f.querySelectorAll('h2'), function (h) {
         if (/^\s*\d+\.\s/.test(h.textContent) && n++) h.classList.add('topico-folha');
@@ -6201,6 +6231,23 @@ window.HVAC = window.HVAC || {};
       { t: 'Situação', v: function (t) { var ld = r.lados[t.lado]; return X.seloSituacaoAr(t) + (ok && t.boca && ld && ld.iCritica === t.i ? ' <span class="selo calc">crítica</span>' : ''); } }
     ], comId(r));
   }
+  // 0.12.0: memorial resumido: uma tabela só, com as colunas de A e B que importam (mesmos valores e casas)
+  function tabTrechosArResumo(r) {
+    var ok = X.validoAr(r);
+    return X.tabelaLeitura('leitura densa', [
+      { t: 'ID', v: idTrecho(true) },
+      { t: 'Montante', v: function (t) { return esc(t.montante || 'ventilador'); } },
+      { t: 'Descrição', v: function (t) { return esc(t.descricao); } },
+      { t: 'Vazão<br>m³/h', num: true, v: function (t) { return n(t.qM3h, 1); } },
+      { t: 'Dimensão<br>mm', v: function (t) { return esc(X.dimAr(t.forma, t.d, t.a, t.b).replace(/ (flex\.|oval)$/, '')); } },
+      { t: 'Compr.<br>m', num: true, v: function (t) { return n(t.L, 2); } },
+      { t: 'Veloc.<br>m/s', num: true, v: function (t) { return n(t.v, 2); } },
+      { t: 'Perda<br>Pa/m', num: true, v: function (t) { return n(t.paM, 2); } },
+      { t: 'ΔP trecho<br>Pa', num: true, v: function (t) { return num('ar.tr.' + t.id + '.dp', n(t.dp, 2)); } },
+      { t: 'Acumulado<br>Pa', num: true, v: function (t) { return num('ar.tr.' + t.id + '.acum', n(t.acumulado, 2)); } },
+      { t: 'Situação', v: function (t) { var ld = r.lados[t.lado]; return X.seloSituacaoAr(t) + (ok && t.boca && ld && ld.iCritica === t.i ? ' <span class="selo calc">crítica</span>' : ''); } }
+    ], comId(r));
+  }
   var NOTA_TRECHOS_AR = 'Velocidade real da seção; pv = ρ · V² ÷ 2. O atrito do retangular e do oval é calculado no circular equivalente (De). ΔP do trecho = atrito + conexões + componentes, ' +
     'em pressão total, sem envelhecimento. Acumulado desde o ventilador. A superfície é o perímetro vezes o comprimento.';
 
@@ -6326,7 +6373,7 @@ window.HVAC = window.HVAC || {};
     if (!L.length) { return '<p class="fraco" data-g="sem-avisos-ar">Nenhum aviso.</p>'; }
     return '<ul class="lista-avisos">' + L.map(function (a) { return '<li class="' + a.nivel + '"><b>' + esc(a.onde) + ':</b> ' + esc(ponto(a.texto)) + '</li>'; }).join('') + '</ul>';
   }
-  X.avisosAr = avisosAr; X.listaAvisosAr = listaAvisosAr; X.oQueFaltaAr = oQueFaltaAr; X.tabTrechosArA = tabTrechosArA; X.tabTrechosArB = tabTrechosArB; X.tabCaminhoAr = tabCaminhoAr;
+  X.avisosAr = avisosAr; X.listaAvisosAr = listaAvisosAr; X.oQueFaltaAr = oQueFaltaAr; X.tabTrechosArA = tabTrechosArA; X.tabTrechosArB = tabTrechosArB; X.tabTrechosArResumo = tabTrechosArResumo; X.tabCaminhoAr = tabCaminhoAr;
   X.vazamentoLadosAr = vazamentoLados; X.temVazamentoLadosAr = temVazamentoLados; X.NOTA_PTOTAL_AR = NOTA_PTOTAL; X.notaPtotalAr = notaPtotal;
   X.textoCaminhoAr = textoCaminhoAr; X.NOTA_TRECHOS_AR = NOTA_TRECHOS_AR; X.ladosBalanceamentoAr = ladosBalanceamento; X.ladosAr = lados;
 
@@ -7193,7 +7240,7 @@ window.HVAC = window.HVAC || {};
     ], L);
   }
   function m3h(v) { return numero(v) ? n(v * 3600, 1) : '—'; }
-  function secVentilador(r) {
+  function secVentilador(r, resumo) {   // resumo (0.12.0): sem os passos e sem a tabela de caminho
     var V = r.ventilador, passos = [];
     function cel(rot, html) { return '<td><span>' + esc(rot) + '</span><b>' + html + '</b></td>'; }
     if (numero(V.q)) { passos = passos.concat(X.passosVentQ(r)); }
@@ -7213,25 +7260,27 @@ window.HVAC = window.HVAC || {};
       '</tr></tbody></table>' +
       (V.motivoQ ? '<p class="alerta-f">Vazão do ventilador sem valor: ' + esc(semPonto(V.motivoQ)) + '.</p>' : '') +
       (V.motivoP ? '<p class="alerta-f">Pressão total sem valor: ' + esc(semPonto(V.motivoP)) + '.</p>' : '') +
-      (passos.length ? C.tabPassos(passos.map(function (x) { var o = {}, k; for (k in x) { o[k] = x[k]; } o.fonte = X.fonteCurta(x.fonte); return o; })) : '') +
+      (passos.length && !resumo ? C.tabPassos(passos.map(function (x) { var o = {}, k; for (k in x) { o[k] = x[k]; } o.fonte = X.fonteCurta(x.fonte); return o; })) : '') +
       (X.temEquipAr(r) ? '<h3>Equipamento existente</h3>' + X.comparaEquipAr(r, true) : '') +
       X.ladosAr(r).map(function (ld) {
         var s = ld.nome === 'insuflamento' ? 'Ins' : 'Ret';
         if (ld.iCritica < 0) { return '<h3>Boca crítica ' + X.doLado(r, ld.nome) + '</h3><p class="nota">Sem boca com perda calculada.</p>'; }
         return '<div class="junto"><h3>Boca crítica ' + X.doLado(r, ld.nome) + '</h3><p>Boca <b data-g="ar.crit' + s + '">' + esc(ld.bocaCritica) + '</b>: ' + num('ar.critDp' + s, n(ld.dpCritico, 2)) +
-          ' Pa entre ela e o ventilador.</p><p class="caminho" data-g="caminho-' + ld.nome + '">' + esc(X.textoCaminhoAr(ld)) + '</p>' + X.tabCaminhoAr(r, ld, true) + '</div>';   // junto: a tabela não se separa do total
+          ' Pa entre ela e o ventilador.</p><p class="caminho" data-g="caminho-' + ld.nome + '">' + esc(X.textoCaminhoAr(ld)) + '</p>' + (resumo ? '' : X.tabCaminhoAr(r, ld, true)) + '</div>';   // junto: a tabela não se separa do total
       }).join('');
   }
-  function secVazamento(r, cri) {
+  function secVazamento(r, cri, resumo) {   // resumo (0.12.0): só o quadro resumo-f
     var V = r.ventilador, ua = r.unidadeAtendida, cls = TA.classe(cri.classePressao);
     function cel(rot, html) { return '<td><span>' + esc(rot) + '</span><b>' + html + '</b></td>'; }
-    return '<table class="resumo-f"><tbody><tr>' +
+    var quadro = '<table class="resumo-f"><tbody><tr>' +
         cel('Vazamento admissível', numero(V.qVazamento) ? esc(n(V.qVazamento * 1000, 2)) + ' L/s' : '—') +
         cel('Superfície de duto', num('ar.sup', n(r.superficie, 2)) + ' m²') +
         cel('Superfície dos dutos rígidos', num('ar.supCl', n(r.superficieCl, 2)) + ' m²') +
         cel('Classe de vazamento', numero(r.cl) ? 'CL ' + num('ar.cl', n(r.cl, 2)) : '—') +
         cel('Classe de pressão dos dutos', esc(n(cri.classePressao, 0)) + ' Pa') +
-      '</tr></tbody></table>' +
+      '</tr></tbody></table>';
+    if (resumo) { return quadro; }
+    return quadro +
       (numero(r.cl) ? C.tabPassos([
         p('Vazamento admissível', 'vazão dos dutos × percentual ÷ 3,6', n(V.qBase * 3600, 1) + ' × ' + n(V.vazamentoPct, 1) + ' ÷ 100 ÷ 3,6', n(V.qVazamento * 1000, 2) + ' L/s', X.fonteCurta(FA.tabela2)),
         p('Superfície dos dutos rígidos', 'soma de perímetro × comprimento, sem os flexíveis', '', n(r.superficieCl, 2) + ' m²', 'NBR 16401-1, p. 28, l. 19'),
@@ -7258,9 +7307,19 @@ window.HVAC = window.HVAC || {};
     return L.length ? '<p class="nota" data-g="nota-flexiveis">Dutos flexíveis: ' + L.join('; ') + '.</p>' : '';
   }
   // todas as seções dos dutos; h2(titulo, quebra) numera as seções da folha
-  function secoes(E, R, h2) {
+  function secoes(E, R, h2, resumido) {
     var lista = redes(E, R), RD = R.dutos, cri = RD.criterios, varias = lista.length > 1, vazias = [];
     (RD.redes || []).forEach(function (r) { if (r.contagem.trechos === 0) { vazias.push(idRede(r)); } });
+    if (resumido) {   // 0.12.0: memorial resumido: trechos, ventilador, balanceamento e vazamento de cada rede
+      return lista.map(function (x, j) {
+        var r = x.r, ok = X.validoAr(r), suf = varias ? ' · rede ' + idRede(r) : '';
+        return h2('Trechos dos dutos' + suf, j > 0) + X.tabTrechosArResumo(r) +
+          (ok ? h2('Ventilador e bocas críticas' + suf) + secVentilador(r, true) +
+                h2('Balanceamento dos dutos' + suf) + X.ladosBalanceamentoAr(r, x.i, cri, true) +
+                h2('Vazamento, superfície e classe de vazamento' + suf) + secVazamento(r, cri, true)
+              : h2('Ventilador, bocas críticas, balanceamento e vazamento' + suf) + faltaRede(r));
+      }).join('');
+    }
     return h2('Método e equações dos dutos') +
       '<p class="nota">Rede em árvore a partir do ventilador; perda de carga constante, baixa pressão; Darcy-Weisbach com Colebrook no circular equivalente; ' +
         'conexões pelo coeficiente C; componentes pelo catálogo; perdas em pressão total.</p>' + tabMetodo(comAlgumEquip(E, R), comAlgumaCurva(E, R), R.dutos.redes.some(function (r) { return r.papel === 'exaustao'; })) +
@@ -7391,22 +7450,23 @@ window.HVAC = window.HVAC || {};
     mod.redesAr.forEach(function (x) { var m = X.memAr.motivoRede(x.r); if (m) { L.push('Dutos de ar, rede ' + (x.r.id || '(sem ID)') + ': ' + m + '.'); } });
     return L;
   }
-  function folha(E, R) {
+  function folha(E, R, resumido) {
     var p = E.projeto, mod = modulos(E, R), s = 0, falta = incompleto(E, R, mod);
     var us = (p.unidades || []).some(function (u) { return String(u.id || '').trim() !== ''; });
     function h2(t, quebra) { s++; return '<h2' + (quebra ? ' class="quebra"' : '') + '>' + s + '. ' + esc(t) + '</h2>'; }   // quebra: a seção começa em página nova
     var plat = H.plataforma && H.plataforma.versao ? ' · plataforma ' + H.plataforma.versao : '';
-    return '<article class="folha paisagem" data-g="folha">' +
-      '<div class="cab-f"><div><h1>Memorial de cálculo da rede de dutos de ar</h1><div>' +
+    return '<article class="folha paisagem" data-g="folha"' + (resumido ? ' data-resumo="1"' : '') + '>' +
+      '<div class="cab-f"><div><h1>Memorial de cálculo ' + (resumido ? 'resumido ' : '') + 'da rede de dutos de ar</h1><div>' +
         esc(p.nome || 'Projeto sem nome') + (p.cliente ? ' · ' + esc(p.cliente) : '') + (p.local ? ' · ' + esc(p.local) : '') + '</div></div>' +
         '<div>Revisão ' + esc(p.revisao || '—') + (p.data ? ' · ' + esc(p.data) : '') + '<br>Emitido em ' + hoje() + '<br>Dutos HVAC v' + esc(H.versao || '') + esc(plat) + '</div></div>' +
+      (resumido ? '<p class="nota" data-g="resumo-aviso">Método, premissas e contas: memorial completo da mesma revisão.</p>' : '') +
       (falta.length ? '<p class="alerta-f" data-g="incompleto"><b>MEMORIAL INCOMPLETO.</b> ' + esc(falta.join(' ')) + '</p>' : '') +
       h2('Identificação') +
       '<table class="ident-f"><tbody><tr><th>Obra</th><td>' + esc(p.nome || '—') + '</td><th>Cliente</th><td>' + esc(p.cliente || '—') + '</td><th>Local</th><td>' + esc(p.local || '—') + '</td></tr>' +
         '<tr><th>Responsável técnico</th><td>' + esc(p.responsavel || '—') + '</td><th>Registro profissional</th><td>' + esc(p.registro || '—') + '</td><th>Revisão e data</th><td>' + esc(p.revisao || '—') + (p.data ? ' · ' + esc(p.data) : '') + '</td></tr>' +
         '<tr><th>Dutos de ar</th><td colspan="5" data-g="ident-ar">' + linhaAr(mod) + '</td></tr></tbody></table>' +
       (us ? h2('Unidades atendidas') + tabUnidades(p) : '') +
-      (mod.ar ? X.memAr.secoes(E, R, h2) : '') +
+      (mod.ar ? X.memAr.secoes(E, R, h2, resumido) : '') +
       '</article>';
   }
 
@@ -7416,7 +7476,7 @@ window.HVAC = window.HVAC || {};
         'dutos de ar (método, premissas, trechos, ventilador, balanceamento e vazamento).') +
       '<div class="acoes" style="margin-bottom:16px"><button class="botao prim" data-acao="pdf">Gerar PDF</button><button class="botao" data-acao="salvar">Salvar arquivo do projeto</button>' +
         '<span class="fraco">No diálogo de impressão, escolha "Salvar como PDF". A folha já sai em A4 deitado.</span></div>' +
-      '</div>' + folha(E, R);
+      '</div>' + folha(E, R, U.memorial === 'resumido');
   };
 })(window.HVAC);
 
@@ -7960,6 +8020,7 @@ window.HVAC = window.HVAC || {};
     ],
     // plataforma 0.7.0: o que falta preencher abre a janela da casca ao gerar o PDF (memorial.js)
     faltaPreencher: function (E, R) { return X.faltaPreencher(E, R); },
+    memorialResumido: true,
     arquivo: {
       formato: M.formato.FORMATO,
       versao: M.formato.VERSAO_FORMATO,
